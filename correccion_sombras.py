@@ -25,4 +25,4 @@ for i in range(50):
                 grey[row][col] += 12
                 
     ret2,binary = cv2.threshold(grey,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
-    cv2.imwrite(f"results/IMG{num+i}C.jpg",binary)
+    cv2.imwrite(f"results/IMG{num+i}OS.jpg",binary)
