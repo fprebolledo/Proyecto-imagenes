@@ -27,7 +27,7 @@ for i in range(50):
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
 
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
-            cv2.THRESH_BINARY_INV,581,2)
+            cv2.THRESH_BINARY_INV,361,2) 
     lista = [2,3,5]
     for j in lista:
         #iteramos en ventanas de ixi para sacar el ruido de la imagen
