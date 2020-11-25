@@ -30,8 +30,6 @@ def segmentation_img(num, i):
     img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
     median = cv2.medianBlur(img,21)    
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
-    # equalizacion del histograma.
-    grey = cv2.equalizeHist(grey)
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
             cv2.THRESH_BINARY_INV,391,2) 
     lista = [2,3,5]
@@ -50,7 +48,7 @@ def segmentation_img(num, i):
     delete_min_areas(ohter)
     binary = 255-ohter
 
-    cv2.imwrite(f"results/IMG{num+i}EQ.jpg",binary)
+    cv2.imwrite(f"results/IMG{num+i}A.jpg",binary)
 
 
 if __name__=="__main__":
