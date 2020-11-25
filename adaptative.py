@@ -21,11 +21,17 @@ def delete_min_areas(binary_img):
                 binary_img[pint[0]][pint[1]] = 0
         i += 1
 
-for i in range(50):
+def print_img(img, nombre):
+    cv2.imshow(nombre, img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def segmentation_img(num, i):
     img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
     median = cv2.medianBlur(img,21)    
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
-
+    # equalizacion del histograma.
+    grey = cv2.equalizeHist(grey)
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
             cv2.THRESH_BINARY_INV,391,2) 
     lista = [2,3,5]
@@ -44,6 +50,10 @@ for i in range(50):
     delete_min_areas(ohter)
     binary = 255-ohter
 
-    # plt.imshow(binary)
-    # plt.show()
-    cv2.imwrite(f"results/IMG{num+i}A.jpg",binary)
+    cv2.imwrite(f"results/IMG{num+i}EQ.jpg",binary)
+
+
+if __name__=="__main__":
+    for i in range(50):
+        segmentation_img(num, i)
+        
