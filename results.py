@@ -37,4 +37,4 @@ def calculate_restults(tipo):
     print("TASA TPR: ", np.round(TOTAL_T/50,3),"TASA FPR: ", round(TOTAL_F/50, 3))
 
 if __name__ == "__main__":
-    calculate_restults("A")
+    calculate_restults("EQ")

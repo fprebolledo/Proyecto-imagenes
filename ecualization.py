@@ -30,10 +30,11 @@ def segmentation_img(num, i):
     img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
     median = cv2.medianBlur(img,21)    
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
+    grey = cv2.equalizeHist(grey) 
     ## gausiano
-    # binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
-    #         cv2.THRESH_BINARY_INV,391,2)
-    ## con otsu
+    #binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+    #        cv2.THRESH_BINARY_INV,391,2)
+    # con otsu
     _, binary = cv2.threshold(grey,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     lista = [2,3,5]
     for j in lista:
@@ -50,7 +51,6 @@ def segmentation_img(num, i):
     ohter = 255-binary
     delete_min_areas(ohter)
     binary = 255-ohter
-
     cv2.imwrite(f"results/IMG{num+i}EQO.jpg",binary)
 
 
