@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
+bad_imgs = [16, 17, 23, 25, 31,32, 39]
+
 def calculate_restults(tipo):
     ## código sacado de : https://kawahara.ca/how-to-compute-truefalse-positives-and-truefalse-negatives-in-python-for-binary-classification-problems/
     num = 24306
