@@ -7,7 +7,10 @@ bad_imgs = [16, 17, 23, 25, 31,32, 39]
 def calculate_restults(tipo):
     ## código sacado de : https://kawahara.ca/how-to-compute-truefalse-positives-and-truefalse-negatives-in-python-for-binary-classification-problems/
     num = 24306
-    TOTAL_T, TOTAL_F = 0,0
+    # ESTO ES PARA TENER UAN IDEA DE COMO CLASIFICAN LAS IMAGENES "FACILES"=GOOD, "DIFICILES"=BAD Y EN TOTAL
+    GOOD_T, GOOD_F = 0, 0
+    BAD_T, BAD_F = 0, 0
+    TOTAL_T, TOTAL_F = 0, 0
     for i in range(50):
         ## leer imagenes
         real = cv2.imread(f'images/ISIC_00{num+i}_segmentation.png', 0)
@@ -31,12 +34,25 @@ def calculate_restults(tipo):
         
         # False Negative (FN): we predict a label of 0 (negative), but the true label is 1.
         FN = np.sum(np.logical_and(pred_labels == 0, true_labels == 255))
+
         TPR = TP/(TP+FN)
         FPR = FP/(FP+TN)
+        if i in bad_imgs:
+            BAD_T += TPR
+            BAD_F += FPR
+        else:
+            GOOD_T += TPR
+            GOOD_F += FPR
+
         TOTAL_T += TPR
         TOTAL_F += FPR
 
+    print("-------------- IMAGENES FÁCILES -----------------")
+    print("TASA TPR: ", np.round(GOOD_T/50,3),"TASA FPR: ", round(GOOD_F/50, 3))
+    print("-------------- IMAGENES DIFICILES -----------------")
+    print("TASA TPR: ", np.round(BAD_T/50,3),"TASA FPR: ", round(BAD_F/50, 3))
+    print("-------------------- TOTAL -----------------------")
     print("TASA TPR: ", np.round(TOTAL_T/50,3),"TASA FPR: ", round(TOTAL_F/50, 3))
 
 if __name__ == "__main__":
-    calculate_restults("EQ")
+    calculate_restults("EQO")
