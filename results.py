@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-
+import pandas as pd
 bad_imgs = [16, 17, 23, 25, 31,32, 39]
 
 def calculate_restults(tipo):
@@ -11,6 +11,10 @@ def calculate_restults(tipo):
     GOOD_T, GOOD_F = 0, 0
     BAD_T, BAD_F = 0, 0
     TOTAL_T, TOTAL_F = 0, 0
+    total_tpr = []
+    total_fpr = []
+    bad_tpr = []
+    bad_fpr = []
     for i in range(50):
         ## leer imagenes
         real = cv2.imread(f'images/ISIC_00{num+i}_segmentation.png', 0)
@@ -46,13 +50,34 @@ def calculate_restults(tipo):
 
         TOTAL_T += TPR
         TOTAL_F += FPR
-
+        total_tpr.append(TPR)
+        total_fpr.append(FPR)
+    total_tpr = np.array(total_tpr)
+    total_fpr = np.array(total_fpr)
+    worst_tpr = np.argsort(total_tpr)[:8] ## el - es para que sean los menores (los n menores tpr)
+    worst_fpr = np.argsort(-total_fpr)[:8] ## sin el - es para que sean los mayores (los n mayores fpr)
+    TOTAL_T_RES = np.round(TOTAL_T/50, 3)
+    TOTAL_F_RES = np.round(TOTAL_F/50, 3)
+    GOOD_T_RES = np.round(GOOD_T/(50-len(bad_imgs)), 3)
+    GOOD_F_RES = np.round(GOOD_F/(50-len(bad_imgs)), 3)
+    BAD_T_RES = np.round(BAD_T/len(bad_imgs), 3)
+    BAD_F_RES = np.round(BAD_F/len(bad_imgs), 3)
     print("-------------- IMAGENES FÁCILES -----------------")
-    print("TASA TPR: ", np.round(GOOD_T/50,3),"TASA FPR: ", round(GOOD_F/50, 3))
+    print("TASA TPR: ", GOOD_T_RES, "TASA FPR: ", GOOD_F_RES)
     print("-------------- IMAGENES DIFICILES -----------------")
-    print("TASA TPR: ", np.round(BAD_T/50,3),"TASA FPR: ", round(BAD_F/50, 3))
+    print("TASA TPR: ", BAD_T_RES, "TASA FPR: ", BAD_F_RES)
     print("-------------------- TOTAL -----------------------")
-    print("TASA TPR: ", np.round(TOTAL_T/50,3),"TASA FPR: ", round(TOTAL_F/50, 3))
+    print("TASA TPR: ", TOTAL_T_RES, "TASA FPR: ", TOTAL_F_RES)
+    return TOTAL_T_RES, TOTAL_F_RES, BAD_T_RES, BAD_F_RES, worst_tpr, worst_fpr
 
+def resultados_csv(tipos, nombreoutput):
+    data = []
+    for tipo in tipos:
+        tpr, fpr, tpr_bad, fpr_bad, worst_tpr, worst_fpr= calculate_restults(tipo)
+        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, worst_tpr, worst_fpr])
+    df = pd.DataFrame(data, columns=["Tipo", "TPR", "FPR", "TPR_BAD", "FPR_BAD", "8 peores tpr", "8 peores fpr"])
+    df.to_csv("resultados.csv", sep=",", header = True, index = False)
+    
 if __name__ == "__main__":
-    calculate_restults("EQO")
+    tipos = ["A", "O", "EQ", "EQO", "OS"]
+    resultados_csv(tipos, "resultados.csv")
