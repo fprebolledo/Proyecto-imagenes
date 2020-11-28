@@ -76,7 +76,7 @@ def resultados_csv(tipos, nombreoutput):
     data = []
     for tipo in tipos:
         tpr, fpr, tpr_bad, fpr_bad, tpr_good, fpr_good, worst_tpr, worst_fpr = calculate_restults(tipo)
-        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, tpr_good, tpr_bad, worst_tpr, worst_fpr])
+        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, tpr_good, fpr_good, worst_tpr, worst_fpr])
     df = pd.DataFrame(data, columns=["Tipo", "TPR_FULL", "FPR_FULL", "TPR_BAD", "FPR_BAD", "TPR_GOOD", "FPR_GOOD", "8 peores tpr", "8 peores fpr"])
     df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
