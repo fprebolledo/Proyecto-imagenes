@@ -52,6 +52,7 @@ def calculate_restults(tipo):
         TOTAL_F += FPR
         total_tpr.append(TPR)
         total_fpr.append(FPR)
+    
     total_tpr = np.array(total_tpr)
     total_fpr = np.array(total_fpr)
     worst_tpr = np.argsort(total_tpr)[:8] ## el - es para que sean los menores (los n menores tpr)
@@ -68,16 +69,18 @@ def calculate_restults(tipo):
     print("TASA TPR: ", BAD_T_RES, "TASA FPR: ", BAD_F_RES)
     print("-------------------- TOTAL -----------------------")
     print("TASA TPR: ", TOTAL_T_RES, "TASA FPR: ", TOTAL_F_RES)
-    return TOTAL_T_RES, TOTAL_F_RES, BAD_T_RES, BAD_F_RES, worst_tpr, worst_fpr
+    return TOTAL_T_RES, TOTAL_F_RES, BAD_T_RES, BAD_F_RES, GOOD_T_RES, GOOD_F_RES, worst_tpr, worst_fpr
+
 
 def resultados_csv(tipos, nombreoutput):
     data = []
     for tipo in tipos:
-        tpr, fpr, tpr_bad, fpr_bad, worst_tpr, worst_fpr= calculate_restults(tipo)
-        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, worst_tpr, worst_fpr])
-    df = pd.DataFrame(data, columns=["Tipo", "TPR", "FPR", "TPR_BAD", "FPR_BAD", "8 peores tpr", "8 peores fpr"])
-    df.to_csv("resultados.csv", sep=",", header = True, index = False)
+        tpr, fpr, tpr_bad, fpr_bad, tpr_good, fpr_good, worst_tpr, worst_fpr = calculate_restults(tipo)
+        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, tpr_good, tpr_bad, worst_tpr, worst_fpr])
+    df = pd.DataFrame(data, columns=["Tipo", "TPR_FULL", "FPR_FULL", "TPR_BAD", "FPR_BAD", "TPR_GOOD", "FPR_GOOD", "8 peores tpr", "8 peores fpr"])
+    df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
 if __name__ == "__main__":
     tipos = ["A", "O", "EQ", "EQO", "OS"]
     resultados_csv(tipos, "resultados.csv")
+    ##calculate_restults("A")
