@@ -25,10 +25,10 @@ for i in range(50):
             else:
                 grey[row][col] += 12
            
-    ret2,binary = cv2.threshold(grey,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+    _, binary = cv2.threshold(grey,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     delete_min_areas(binary)
-    ohter = 255-binary
-    delete_min_areas(ohter)
-    binary = 255-ohter
+    aux = 255-binary
+    delete_min_areas(aux)
+    binary = 255-aux
     
     cv2.imwrite(f"results/IMG{num+i}OS.jpg",binary)

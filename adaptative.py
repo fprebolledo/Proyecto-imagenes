@@ -5,12 +5,16 @@ from matplotlib import pyplot as plt
 num = 24306
 
 def delete_min_areas(binary_img):
+    """
+    Funcion que recibe una imagen binaria
+    Elimina las formas de menor area de la imagen
+    """
     contours, _ = cv2.findContours(binary_img, 1, 2)
     # creo una lista con las áreas de los contornos
     areas = list(map(cv2.contourArea, contours))
-    i = 0
+
     # los itero y si el area es menor que el area maxima lo eliimino
-    for cont in contours:
+    for i, cont in enumerate(contours):
         area = areas[i]
         if area < max(areas):
             #mascara de unos
@@ -19,7 +23,6 @@ def delete_min_areas(binary_img):
             pixelpoints = np.transpose(np.nonzero(mask))
             for pint in pixelpoints:
                 binary_img[pint[0]][pint[1]] = 0
-        i += 1
 
 def print_img(img, nombre):
     cv2.imshow(nombre, img)
@@ -44,9 +47,9 @@ def segmentation_img(num, i):
     
 
     delete_min_areas(binary)
-    ohter = 255-binary
-    delete_min_areas(ohter)
-    binary = 255-ohter
+    auxiliar = 255-binary
+    delete_min_areas(auxiliar)
+    binary = 255-auxiliar
 
     cv2.imwrite(f"results/IMG{num+i}A.jpg",binary)
 
