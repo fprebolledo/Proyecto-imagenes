@@ -81,6 +81,6 @@ def resultados_csv(tipos, nombreoutput):
     df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
 if __name__ == "__main__":
-    tipos = ["A", "O", "EQ", "EQO", "OS"]
+    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W"]
     resultados_csv(tipos, "resultados.csv")
     ##calculate_restults("A")
