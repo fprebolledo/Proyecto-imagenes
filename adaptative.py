@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+import skimage as sk
 
 num = 24306
 
@@ -17,12 +18,8 @@ def delete_min_areas(binary_img):
     for i, cont in enumerate(contours):
         area = areas[i]
         if area < max(areas):
-            #mascara de unos
-            mask = np.zeros(binary_img.shape,np.uint8)
-            cv2.drawContours(mask,[cont],0,255,-1)
-            pixelpoints = np.transpose(np.nonzero(mask))
-            for pint in pixelpoints:
-                binary_img[pint[0]][pint[1]] = 0
+            #m rellena lo que esta dentro del contorno con el valor 0
+            cv2.drawContours(binary_img,[cont],0,0,-1)
 
 def print_img(img, nombre):
     cv2.imshow(nombre, img)
