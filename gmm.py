@@ -9,8 +9,8 @@ num = 24306
 def segmentation_img(num, i):
     img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
     median = cv2.medianBlur(img,25)    
-    _, s, _ = cv2.split(cv2.cvtColor(median, cv2.COLOR_BGR2HSV))
-
+    _, s, v = cv2.split(cv2.cvtColor(median, cv2.COLOR_BGR2HSV))
+   
     ## metodo de gausianas multiples de sklearn
     gmm = GaussianMixture(n_components=2)
     gmm = gmm.fit(s)
@@ -28,11 +28,11 @@ def segmentation_img(num, i):
     binary_img = 255-ohter
 
     #prints para ver si se puede mejorar
-    cv2.imshow('s',s)
-    cv2.imshow("binary", binary_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    print(np.average(s))
+    # cv2.imshow('s',s)
+    # cv2.imshow("v", v)
+    # cv2.imshow("binary", binary_img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
     cv2.imwrite(f"results/IMG{num+i}GMMS.jpg",binary_img)
 
 if __name__=="__main__":
