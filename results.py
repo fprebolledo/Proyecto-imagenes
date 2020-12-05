@@ -63,6 +63,7 @@ def calculate_restults(tipo):
     GOOD_F_RES = np.round(GOOD_F/(50-len(bad_imgs)), 3)
     BAD_T_RES = np.round(BAD_T/len(bad_imgs), 3)
     BAD_F_RES = np.round(BAD_F/len(bad_imgs), 3)
+    print(f"-----------------RESULTADOS {tipo}-------------")
     print("-------------- IMAGENES FÁCILES -----------------")
     print("TASA TPR: ", GOOD_T_RES, "TASA FPR: ", GOOD_F_RES)
     print("-------------- IMAGENES DIFICILES -----------------")
@@ -81,6 +82,6 @@ def resultados_csv(tipos, nombreoutput):
     df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
 if __name__ == "__main__":
-    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W"]
+    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "GMMS", "GMMV", "GMMG"]
     resultados_csv(tipos, "resultados.csv")
     ##calculate_restults("A")
