@@ -88,9 +88,9 @@ if __name__ == "__main__":
             make_results(kind, "", False, True)
             for i in range(1,4):
                 make_results(kind, i , False, True) """
-    # Para correr solo los mejores
+    # Para correr solo los mejor}es
     # (Ignorar las ventanas de cv2, terminara eventualmente aprox 30 seg)
-    bests = ["RBG1", "HSV2", "LAB2"]
+    bests = ["RGB1", "HSV2", "LAB2"]
     for best in bests:
         kind, canal = best[0:3], int(best[3])
-        make_results(best, canal, False, True)
+        make_results(kind, canal, False, True)

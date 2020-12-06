@@ -1,9 +1,59 @@
+from scipy.optimize import minimize
+from skimage.transform import resize
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 from adaptative import delete_min_areas
+
 num = 24306
 
+
+_k = np.ones(3)
+
+
+def rgb2hcm(image):
+    '''\
+    rgb2hcm(image)
+
+    Segmentation of an object with homogeneous background.
+
+    Parameters
+    ----------
+    image: 3 dimensional ndarray
+        The RGB input image.
+
+    Returns
+    -------
+    hcm: 2 dimensional ndarray
+        high contrast grayscale representation of input image
+
+
+    Examples
+    --------
+    (TODO)
+    '''
+    if image.ndim < 3:
+        I = image
+    else:
+        img_resize = resize(image, (64, 64), order=3,
+                            mode='reflect', anti_aliasing=False)
+        k = minimize(monochrome_std, [1., 1.], args=(img_resize,))['x']
+        _k[:2] = k
+        I = image @ _k
+    J = I - I.min()
+    J = J / J.max()
+    n = J.shape[0] // 4
+    m = J.shape[1] // 4
+
+    if (J[:n, :m].mean() > .4):
+        J = 1 - J
+    return J
+
+
+def monochrome_std(k, image):
+    _k[:2] = k
+    I = image @ _k
+    return - I.std(ddof=1) / (I.max() - I.min())
 
 def printear_img_plt(img, text, fin=False):
     fig = plt.figure(figsize=(5, 5))
@@ -64,16 +114,8 @@ def contrast_img(img):
 if __name__ == "__main__":
     for i in range(0, 50):
         img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
-        # segmentation = cv2.imread(f'images/ISIC_00{num+i}_segmentation.png')
-        # aux = np.hstack([img, segmentation])
-        # printimg("original", aux)
-        xd(img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-    # xd(img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-    # img = contrast_img(img)
-    # tophat(img)
-    # conversion_contrast(img)
-    
+        imggray = rgb2hcm(img)
+        cv2.imshow("imggray", imggray)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+            
