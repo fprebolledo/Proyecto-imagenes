@@ -19,7 +19,7 @@ def calculate_restults(tipo):
         ## leer imagenes
         real = cv2.imread(f'images/ISIC_00{num+i}_segmentation.png', 0)
         obtenido = cv2.imread(f'results/IMG{num+i}{tipo}.jpg', 0)
-        
+        d=obtenido.flatten()
         # no entiendo porque los bordes cuando se guarda la imagen quedan con 1 o 254 y hay que hacer esto uwu
         _, obtenido = cv2.threshold(obtenido,127,255,cv2.THRESH_BINARY)
         true_labels, pred_labels = real.flatten(), obtenido.flatten()
@@ -82,7 +82,7 @@ def resultados_csv(tipos, nombreoutput):
     df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
 if __name__ == "__main__":
-    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2"]
+    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2", "GMMSA", "GMMS"]
     for tipo in tipos:
         resultados_csv(tipo, "resultados.csv")
     # Para todos correr todos los kmeans.
