@@ -94,7 +94,6 @@ def resultados_csv(tipos, output_name):
     df.to_csv(output_name, sep=",", header=True, index=False)
     
 if __name__ == "__main__":
-    # Tienen que estar todos los tipos, si no, tira error al no encontrar imagen.
     tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "RW", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2"]
     resultados_csv(tipos, "resultados.csv")
     # Para todos correr todos los kmeans.
