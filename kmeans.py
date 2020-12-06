@@ -53,15 +53,6 @@ def kmeans(img, kind, canal = ""):
             res = cv2.cvtColor(res, cv2.COLOR_HSV2RGB)
             res = cv2.cvtColor(res, cv2.COLOR_RGB2GRAY)
         _, res2 = cv2.threshold(res, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
-
-        # res2 = np.zeros((img.shape[0:2]))
-        # x = 0
-        # for i in center :
-        #     res2[res[:,:,:] == i[0]] = x
-        #     x+=1
-        # res2 = res2*255
-        # res2 = np.uint8(res2)
-
     delete_min_areas(res2)
     auxiliar = 255-res2
     delete_min_areas(auxiliar)
