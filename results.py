@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 bad_imgs = [16, 17, 23, 25, 31,32, 39]
 
-def calculate_restults(tipo):
+def calculate_results(tipo):
     ## código sacado de : https://kawahara.ca/how-to-compute-truefalse-positives-and-truefalse-negatives-in-python-for-binary-classification-problems/
     num = 24306
     # ESTO ES PARA TENER UAN IDEA DE COMO CLASIFICAN LAS IMAGENES "FACILES"=GOOD, "DIFICILES"=BAD Y EN TOTAL
@@ -72,17 +72,30 @@ def calculate_restults(tipo):
     return TOTAL_T_RES, TOTAL_F_RES, BAD_T_RES, BAD_F_RES, GOOD_T_RES, GOOD_F_RES, worst_tpr, worst_fpr
 
 
-def resultados_csv(tipos, nombreoutput):
+def resultados_csv(tipos, output_name):
+
+    columnas = [
+        "Tipo",
+        "TPR_FULL",
+        "FPR_FULL",
+        "TPR_BAD",
+        "FPR_BAD",
+        "TPR_GOOD",
+        "FPR_GOOD",
+        "8 peores tpr",
+        "8 peores fpr"
+    ]
+
     data = []
     for tipo in tipos:
-        tpr, fpr, tpr_bad, fpr_bad, tpr_good, fpr_good, worst_tpr, worst_fpr = calculate_restults(tipo)
-        data.append([tipo, tpr, fpr, tpr_bad, fpr_bad, tpr_good, fpr_good, worst_tpr, worst_fpr])
-    df = pd.DataFrame(data, columns=["Tipo", "TPR_FULL", "FPR_FULL", "TPR_BAD", "FPR_BAD", "TPR_GOOD", "FPR_GOOD", "8 peores tpr", "8 peores fpr"])
-    df.to_csv("resultados.csv", sep=",", header=True, index=False)
+        seg_results = calculate_results(tipo)
+        data.append([tipo, *seg_results])
+    df = pd.DataFrame(data, columns=columnas)
+    df.to_csv(output_name, sep=",", header=True, index=False)
     
 if __name__ == "__main__":
     # Tienen que estar todos los tipos, si no, tira error al no encontrar imagen.
-    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2"]
+    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "RW", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2"]
     resultados_csv(tipos, "resultados.csv")
     # Para todos correr todos los kmeans.
     """ base = "kmeans"

@@ -7,3 +7,4 @@
 - A: adaptativa con media
 - W: sobel + watershed
 - H: histogram umbra
+- RW: random walk
