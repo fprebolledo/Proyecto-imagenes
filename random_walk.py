@@ -13,7 +13,7 @@ def seg_random_walk(umbral=85, k=3):
   para encontrar los marcadores de los puntos destacados de la
   imagen y genera una segmentación con una imagen binaria
   """
-  for i in range(2):
+  for i in range(50):
     # lectura de la imagen y blur para los pelos
     img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
     img = cv2.medianBlur(img, 21)
