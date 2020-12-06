@@ -47,10 +47,10 @@ def segmentation_img(num, i):
     delete_min_areas(auxiliar)
     binary = 255-auxiliar
 
-    cv2.imwrite(f"results/IMG{num+i}A.jpg",binary)
-
+    return binary
 
 if __name__=="__main__":
     for i in range(50):
-        segmentation_img(num, i)
+        binary = segmentation_img(num, i)
+        cv2.imwrite(f"results/IMG{num+i}A.jpg",binary)
         
