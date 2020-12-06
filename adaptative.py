@@ -30,7 +30,7 @@ def segmentation_img(num, i):
     median = cv2.medianBlur(img,21)    
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
-            cv2.THRESH_BINARY_INV,391,2) 
+            cv2.THRESH_BINARY_INV,437,2) 
     lista = [2,3,5]
     for j in lista:
         #iteramos en ventanas de ixi para sacar el ruido de la imagen

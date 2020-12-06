@@ -82,6 +82,15 @@ def resultados_csv(tipos, nombreoutput):
     df.to_csv("resultados.csv", sep=",", header=True, index=False)
     
 if __name__ == "__main__":
-    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "GMMS", "GMMV", "GMMG"]
-    resultados_csv(tipos, "resultados.csv")
-    ##calculate_restults("A")
+    tipos = ["A", "O", "EQ", "EQO", "OS", "H", "W", "kmeansRBG1", "kmeansHSV2", "kmeansLAB2"]
+    for tipo in tipos:
+        resultados_csv(tipo, "resultados.csv")
+    # Para todos correr todos los kmeans.
+    """ base = "kmeans"
+        kinds = ["RGB", "HSV", "LAB"]
+        aux = []
+        for kind in kinds:
+            aux.append(f"{base}{kind}")
+            for i in range(1,4):
+                aux.append(f"{base}{kind}{i}")
+        resultados_csv(aux, "resultados_all_kmeans.csv") """
