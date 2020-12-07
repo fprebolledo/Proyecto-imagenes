@@ -11,7 +11,6 @@ def segmentation_img_gmm(num, i, a=False):
     median = cv2.medianBlur(img,21)  
     grey =   cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
     _, s, v = cv2.split(cv2.cvtColor(median, cv2.COLOR_BGR2HSV))
-   
     ## metodo de gausianas multiples de sklearn
     gmm = GaussianMixture(n_components=2)
     gmm = gmm.fit(s)
@@ -40,12 +39,11 @@ def segmentation_img_gmm(num, i, a=False):
 
     if a:
         std_grey = np.std(grey)
-
+        avg_grey = np.average(grey)
         adaptive_seg = segmentation_img(num, i)
 
-        if std_grey<7:
+        if std_grey<13.5 and avg_grey<170:
             binary_img = binary_img
-            ##poner otro if si la zona segmentada es muy chica ocupar la segmentacion mas grande
         else:
             binary_img = np.logical_and(binary_img.flatten(), adaptive_seg.flatten())
             binary_img = binary_img.reshape(s.shape)
@@ -60,4 +58,4 @@ def segmentation_img_gmm(num, i, a=False):
 
 if __name__=="__main__":
     for i in range(50):
-        segmentation_img_gmm(num, i)
+        segmentation_img_gmm(num, i, True)
