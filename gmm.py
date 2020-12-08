@@ -20,17 +20,6 @@ def segmentation_img_gmm(num, i, a=False):
 
     binary_img = s > threshold
     binary_img = np.uint8(binary_img)*255
-
-    lista = [2,3,5]
-    for j in lista:
-        #iteramos en ventanas de ixi para sacar el ruido de la imagen
-        # se hacen iteraciones para borrar primero los ruidos pequeños
-        # y luego los más grandes que van quedando.
-        kernel = np.ones((j,j),np.uint8)
-        binary_img = cv2.morphologyEx(binary_img,cv2.MORPH_OPEN,kernel)
-        binary_img = cv2.morphologyEx(binary_img,cv2.MORPH_CLOSE,kernel)
-        # quiza no hacer estos tan grandes, si no que hacerlos chicos, hasta 6 y luego cerrar las ciurvas que se puedan.
-    
     # quitamos areas pequeñas
     delete_min_areas(binary_img)
     ohter = 255-binary_img
