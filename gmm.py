@@ -38,8 +38,6 @@ def segmentation_img_gmm(num, i, a=False):
             binary_img = binary_img.reshape(s.shape)
             binary_img = np.uint8(binary_img)*255
     
-    kernel = np.ones((3,3),np.uint8)
-    binary_img = cv2.dilate(binary_img,kernel,iterations = 3)
     if a:
         cv2.imwrite(f"results/IMG{num+i}GMMSA.jpg",binary_img)
     else:
@@ -47,4 +45,4 @@ def segmentation_img_gmm(num, i, a=False):
 
 if __name__=="__main__":
     for i in range(50):
-        segmentation_img_gmm(num, i, True)
+        segmentation_img_gmm(num, i, False)
