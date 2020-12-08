@@ -31,16 +31,6 @@ def segmentation_img(num, i):
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
             cv2.THRESH_BINARY_INV,437,2) 
-    lista = [2,3,5]
-    for j in lista:
-        #iteramos en ventanas de ixi para sacar el ruido de la imagen
-        # se hacen iteraciones para borrar primero los ruidos pequeños
-        # y luego los más grandes que van quedando.
-        kernel = np.ones((j,j),np.uint8)
-        binary = cv2.morphologyEx(binary,cv2.MORPH_OPEN,kernel)
-        binary = cv2.morphologyEx(binary,cv2.MORPH_CLOSE,kernel)
-        # quiza no hacer estos tan grandes, si no que hacerlos chicos, hasta 6 y luego cerrar las ciurvas que se puedan.
-    
 
     delete_min_areas(binary)
     auxiliar = 255-binary
