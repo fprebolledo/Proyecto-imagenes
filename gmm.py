@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.mixture import GaussianMixture
 from adaptative import print_img, delete_min_areas, segmentation_img
-
 num = 24306
 
 def segmentation_img_gmm(num, i, a=False):

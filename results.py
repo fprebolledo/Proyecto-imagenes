@@ -4,9 +4,9 @@ from matplotlib import pyplot as plt
 import pandas as pd
 bad_imgs = [16, 17, 23, 25, 31,32, 39]
 
-def calculate_results(tipo):
+def calculate_results(tipo, cantidad, inicio):
     ## código sacado de : https://kawahara.ca/how-to-compute-truefalse-positives-and-truefalse-negatives-in-python-for-binary-classification-problems/
-    num = 24306
+    num = inicio
     # ESTO ES PARA TENER UAN IDEA DE COMO CLASIFICAN LAS IMAGENES "FACILES"=GOOD, "DIFICILES"=BAD Y EN TOTAL
     GOOD_T, GOOD_F, GOOD_F1 = 0, 0, 0
     BAD_T, BAD_F, BAD_F1 = 0, 0, 0
@@ -17,7 +17,7 @@ def calculate_results(tipo):
     total_fpr = []
     bad_tpr = []
     bad_fpr = []
-    for i in range(50):
+    for i in range(cantidad):
         ## leer imagenes
         real = cv2.imread(f'images/ISIC_00{num+i}_segmentation.png', 0)
         obtenido = cv2.imread(f'results/IMG{num+i}{tipo}.jpg', 0)
@@ -64,8 +64,8 @@ def calculate_results(tipo):
     total_tpr = np.array(total_tpr)
     total_fpr = np.array(total_fpr)
     # total_f1 = np.array(total_f1)
-    # best_f1 = np.argsort(-total_tpr)[0]
-    # worst_f1 = np.argsort(total_tpr)[0]
+    # best_f1 = np.argsort(-total_f1)[0]
+    # worst_f1 = np.argsort(total_f1)[0]
     worst_tpr = np.argsort(total_tpr)[:8] ## el - es para que sean los menores (los n menores tpr)
     worst_fpr = np.argsort(-total_fpr)[:8] ## sin el - es para que sean los mayores (los n mayores fpr)
     TOTAL_T_RES = np.round((TOTAL_T/50) *100, 3)
@@ -118,16 +118,8 @@ def resultados_csv(tipos, output_name):
     
 if __name__ == "__main__":
     # Tienen que estar todos los tipos, si no, tira error al no encontrar imagen.
-    # tipos = ["A", "O", "EQ", "EQO", "GMMS", "GMMSA","OS", "H", "W", "RW", "kmeansRGB1", "kmeansHSV2", "kmeansLAB2"]
-    tipos = ["GMMSA"]
+    tipos = ["A", "O", "EQ", "EQO", "GMMS", "GMMSA","OS", "H", "W", "RW", "kmeansRGB1", "kmeansHSV2", "kmeansLAB2"]
     # tipos = ["kmeansRGB1", "kmeansHSV2", "kmeansLAB2"]
     resultados_csv(tipos, "resultados.csv")
     # Para todos correr todos los kmeans.
-    """ base = "kmeans"
-        kinds = ["RGB", "HSV", "LAB"]
-        aux = []
-        for kind in kinds:
-            aux.append(f"{base}{kind}")
-            for i in range(1,4):
-                aux.append(f"{base}{kind}{i}")
-        resultados_csv(aux, "resultados_all_kmeans.csv") """
+

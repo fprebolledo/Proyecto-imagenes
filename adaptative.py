@@ -25,8 +25,8 @@ def print_img(img, nombre):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-def segmentation_img(num, i):
-    img = cv2.imread(f'images/ISIC_00{num+i}.jpg')
+def segmentation_img(path):
+    img = cv2.imread(path)
     median = cv2.medianBlur(img,21)    
     grey = cv2.cvtColor(median, cv2.COLOR_BGR2GRAY)
     binary = cv2.adaptiveThreshold(grey,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
